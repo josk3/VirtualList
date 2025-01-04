@@ -1,28 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <VirtualList :listData="listData" :itemSize="itemSize"></VirtualList>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import VirtualList from "./components/VirtualList.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    VirtualList,
+  },
+  data() {
+    return {
+      listData: [],
+      itemSize: 100,
+    };
+  },
+  mounted() {
+    for (let i = 0; i < 1000; i++) {
+      this.listData.push({ id: i, value: i });
+    }
+  },
+};
 </script>
 
 <style>
+body {
+  height: 100%;
+  margin: 0;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+}
+html {
+  height: 100%;
 }
 </style>
