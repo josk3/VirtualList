@@ -9,6 +9,7 @@
 
 <script>
 import VirtualListDynamic from "./components/VirtualListDynamic.vue";
+import { faker } from '@faker-js/faker';
 export default {
   name: "App",
   components: {
@@ -22,7 +23,7 @@ export default {
   },
   mounted() {
     for (let i = 0; i < 1000; i++) {
-      this.listData.push({ id: i, value: i });
+      this.listData.push({ id: i, value: faker.lorem.sentences() });
     }
   },
 };
