@@ -1,23 +1,21 @@
 <template>
   <div id="app">
-    <!-- 高度动态不统一 -->
-    <VirtualListDynamic :listData="listData" :estimatedSize="estimatedSize">
-      
-    </VirtualListDynamic>
+    <!-- 高度统一 -->
+    <VirtualList :listData="listData" :itemSize="itemSize"></VirtualList>
   </div>
 </template>
 
 <script>
-import VirtualListDynamic from "./components/VirtualListDynamic.vue";
+import VirtualList from "./components/VirtualList.vue";
 export default {
   name: "App",
   components: {
-    VirtualListDynamic
+    VirtualList,
   },
   data() {
     return {
       listData: [],
-      estimatedSize: 200,
+      itemSize: 100,
     };
   },
   mounted() {
