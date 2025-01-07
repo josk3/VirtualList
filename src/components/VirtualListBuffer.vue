@@ -13,6 +13,12 @@
         :key="item.id"
         :id="item.id"
       >
+        <span
+          :style="{
+            color: 'red',
+          }"
+          >{{ item.id }}</span
+        >
         {{ item.value }}
       </div>
     </div>
@@ -30,6 +36,11 @@ export default {
     listData: {
       type: Array,
       default: () => [],
+    },
+    // 设置缓冲区比例：影响上下缓冲区优化
+    bufferScale: {
+      type: Number,
+      default: 0.3,
     },
   },
   data() {
@@ -65,9 +76,24 @@ export default {
     visiableCount() {
       return Math.ceil(this.visiableHeight / this.estimatedItemSize);
     },
+    // visiableCount 可能会是奇数，bufferScale 可能会是小数，相乘就是小数
+    aboveCount() {
+      return Math.min(
+        this.start,
+        Math.ceil(this.bufferScale * this.visiableCount)
+      );
+    },
+    bottomCount() {
+      return Math.min(
+        this.listData.length - this.end,
+        Math.ceil(this.bufferScale * this.visiableCount)
+      );
+    },
     // 通过设置缓冲区比例增加上下缓冲区优化：渲染列表项数据
     visiableData() {
-      return this.listData.slice(this.start, this.end);
+      let start = this.start - this.aboveCount;
+      let end = this.end + this.bottomCount;
+      return this.listData.slice(start, end);
     },
   },
   methods: {
@@ -119,8 +145,13 @@ export default {
     },
     // 可视窗口的偏移量
     setStartOffset() {
-      this.startOffset =
-        this.start >= 1 ? this.position[this.start - 1].bottom : 0;
+      if (this.start >= 1) {
+        this.startOffset = this.position[this.start - this.aboveCount]
+          ? this.position[this.start - this.aboveCount].top
+          : 0;
+      } else {
+        this.startOffset = 0;
+      }
     },
     // 监听滚动事件
     scrollHandle() {
@@ -135,7 +166,7 @@ export default {
 
 <style>
 .container {
-  width: 40%;
+  width: 30%;
   height: 100%;
   /* 让改容器可以滚动，显示滚动条 */
   overflow-y: auto;

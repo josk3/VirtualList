@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-    <!-- 高度动态不统一 -->
-    <VirtualListDynamic
+    <!-- 处理快速滚动白屏 -->
+    <VirtualListBuffer
       :listData="listData"
       :estimatedItemSize="estimatedItemSize"
     >
-    </VirtualListDynamic>
+    </VirtualListBuffer>
   </div>
 </template>
 
 <script>
-import VirtualListDynamic from "./components/VirtualListDynamic.vue";
+import VirtualListBuffer from "./components/VirtualListBuffer.vue";
 import { faker } from "@faker-js/faker";
 
 export default {
   name: "App",
   components: {
-    VirtualListDynamic,
+    VirtualListBuffer,
   },
   data() {
     return {
