@@ -22,13 +22,19 @@
 <script>
 export default {
   props: {
+    // 预估高度：影响 visibleCount
     estimatedItemSize: {
       type: Number,
-      default: 200,
+      default: 100,
     },
     listData: {
       type: Array,
       default: () => [],
+    },
+    // 设置缓冲区比例：影响上下缓冲区优化
+    bufferScale: {
+      type: Number,
+      default: 0.5,
     },
   },
   data() {
@@ -64,9 +70,20 @@ export default {
     visiableCount() {
       return Math.ceil(this.visiableHeight / this.estimatedItemSize);
     },
-    // 渲染列表项数据
+    // 通过设置缓冲区比例增加上下缓冲区优化：渲染列表项数据
     visiableData() {
-      return this.listData.slice(this.start, this.end);
+      let start = this.start - this.aboveCount;
+      let end = this.end + this.bottomCount;
+      return this.listData.slice(start, end);
+    },
+    aboveCount() {
+      return Math.min(this.start, this.bufferScale * this.visiableCount);
+    },
+    bottomCount() {
+      return Math.min(
+        this.listData.length - this.end,
+        this.bufferScale * this.visiableCount
+      );
     },
   },
   methods: {
@@ -86,9 +103,9 @@ export default {
         let rect = node.getBoundingClientRect();
         let newHeight = rect.height;
         let index = +node.id; // 通过node去拿index索引
-        let oldHeight = this.position[index].height
+        let oldHeight = this.position[index].height;
 
-        let diff = newHeight - oldHeight
+        let diff = newHeight - oldHeight;
         if (diff) {
           this.position[index].height = newHeight;
           this.position[index].bottom = this.position[index].bottom + diff;
@@ -107,13 +124,14 @@ export default {
     },
     //二分法查找
     binarySearch(q, x) {
-      let l = 0, r = q.length - 1
-      while(l < r) {
-        let mid = Math.floor((l + r) / 2)
-        if(q[mid].bottom >= x) r = mid
-        else l = mid + 1
+      let l = 0,
+        r = q.length - 1;
+      while (l < r) {
+        let mid = Math.floor((l + r) / 2);
+        if (q[mid].bottom >= x) r = mid;
+        else l = mid + 1;
       }
-      return l
+      return l;
     },
     // 可视窗口的偏移量
     setStartOffset() {
@@ -123,7 +141,7 @@ export default {
     // 监听滚动事件
     scrollHandle() {
       let scrollTop = this.$refs.container.scrollTop;
-      this.start = this.getStartIndex(scrollTop)
+      this.start = this.getStartIndex(scrollTop);
       this.end = this.start + this.visiableCount;
       this.setStartOffset();
     },
