@@ -100,10 +100,20 @@ export default {
         }
       });
     },
-    // 二分优化：获取开始索引
-    getStart(scrollTop) {
-      let item = this.position.find((item) => item && item.bottom > scrollTop);
-      return item.index
+    //二分优化：获取列表起始索引
+    getStartIndex(scrollTop = 0) {
+      //二分法查找
+      return this.binarySearch(this.position, scrollTop);
+    },
+    //二分法查找
+    binarySearch(q, x) {
+      let l = 0, r = q.length - 1
+      while(l < r) {
+        let mid = Math.floor((l + r) / 2)
+        if(q[mid].bottom >= x) r = mid
+        else l = mid + 1
+      }
+      return l
     },
     // 可视窗口的偏移量
     setStartOffset() {
@@ -113,7 +123,7 @@ export default {
     // 监听滚动事件
     scrollHandle() {
       let scrollTop = this.$refs.container.scrollTop;
-      this.start = this.getStart(scrollTop)
+      this.start = this.getStartIndex(scrollTop)
       this.end = this.start + this.visiableCount;
       this.setStartOffset();
     },
