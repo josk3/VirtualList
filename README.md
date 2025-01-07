@@ -1,24 +1,37 @@
-# vue-demo
+<div align="center">
 
-## Project setup
-```
+ 
+<p align="center">
+    <img src="https://pic.imgdb.cn/item/63fb3d72f144a0100735f611.jpg" alt="" width="400">
+</p>
+    
+# ⭐️ 虚拟列表优化 ⭐️
+    
+基于 Vue2 实现的虚拟列表优化
+    
+</div>
+
+#### 结构说明 📚
+1. VirtualList.vue 是高度统一的文件，最基本的优化
+2. VirtualListDynamic.vue 是高度不统一的文件
+
+
+#### 调试
+去掉App后面的文字即可调试对应的App文件
+
+#### 优化内容 🚀
+1. 列表项高度统一：加载可视区域内的列表项，当发生滚动时，监听滚动事件动态计算获取可视区域列表项
+2. 高度不统一：增加缓存用来记录每个列表项的位置和尺寸，当发生滚动时，监听事件通过缓存计算获得开始索引和结束索引，更新可视区域的列表项
+3. 滚动太快处理出现的白屏：增加缓存区比列来设置上下缓存区，提前渲染可视区域之外的部分列表项，可以很大程度上减小白屏
+
+#### 项目本地启动
+```shell
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
+```shell
 npm run serve
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
 ### 参考
-See [掘金](https://juejin.cn/post/6844903982742110216?searchId=20250104185401BE461C4C27577DE6704E).
+ [「前端进阶」高性能渲染十万条数据(虚拟列表)](https://juejin.cn/post/6844903982742110216?searchId=20250104185401BE461C4C27577DE6704E).
