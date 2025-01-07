@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 高度动态不统一 -->
-    <VirtualListDynamic :listData="listData" :estimatedSize="estimatedSize">
+    <VirtualListDynamic :listData="listData" :estimatedItemSize="estimatedSize">
       
     </VirtualListDynamic>
   </div>
@@ -10,18 +10,20 @@
 <script>
 import VirtualListDynamic from "./components/VirtualListDynamic.vue";
 import { faker } from '@faker-js/faker';
+
 export default {
   name: "App",
   components: {
     VirtualListDynamic
   },
-  data() {
+  data() { 
     return {
       listData: [],
-      estimatedSize: 200,
+      estimatedSize: 100,
     };
   },
-  mounted() {
+  // 注意：需要在created中处理数据，如果在mounted处理，listData传给子组件可能为空
+  created() {
     for (let i = 0; i < 1000; i++) {
       this.listData.push({ id: i, value: faker.lorem.sentences() });
     }
