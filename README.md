@@ -1,9 +1,4 @@
 <div align="center">
-
- 
-<p align="center">
-    <img src="https://pic.imgdb.cn/item/63fb3d72f144a0100735f611.jpg" alt="" width="400">
-</p>
     
 # ⭐️ 虚拟列表优化 ⭐️
     
@@ -32,6 +27,21 @@ npm install
 ```shell
 npm run serve
 ```
+
+#### Commite
+feat：新功能（feature）
+
+fix：修补bug
+
+docs：文档（documentation）
+
+style： 格式（不影响代码运行的变动）
+
+refactor：重构（即不是新增功能，也不是修改bug的代码变动）
+
+test：增加测试
+
+chore：构建过程或辅助工具的变动
 
 ### 参考
  [「前端进阶」高性能渲染十万条数据(虚拟列表)](https://juejin.cn/post/6844903982742110216?searchId=20250104185401BE461C4C27577DE6704E).
